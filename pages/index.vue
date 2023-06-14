@@ -10,6 +10,16 @@ const username = computed(() =>
 const avatar = computed(() =>
   user.value?.user_metadata.avatar_url,
 )
+
+const supabase = useSupabaseClient()
+async function logout() {
+  const { error } = await supabase.auth.signOut()
+
+  if (error)
+    return alert('Something went wrong !')
+
+  await navigateTo('login')
+}
 </script>
 
 <template>
@@ -25,7 +35,7 @@ const avatar = computed(() =>
             {{ username }}
           </h5>
           <div class="actions">
-            <button class="logout">
+            <button class="logout" @click="logout">
               Logout
             </button>
           </div>
