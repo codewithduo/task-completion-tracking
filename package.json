@@ -10,6 +10,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
+  "dependencies": {
+    "@nuxtjs/supabase": "^0.3.7"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.5",
     "@nuxt/devtools": "latest",
