@@ -1,19 +1,27 @@
 <script setup lang="ts">
 const supabase = useSupabaseAuthClient()
 const user = useSupabaseUser()
+const route = useRoute()
 
 async function handleLogin() {
+  const redirectTo = `${window.location.origin}/${route.query.redirectTo || ''}`
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'github',
+    options: {
+      redirectTo,
+    },
   })
 
   if (error)
     return alert('Something went wrong !')
 }
 
-watchEffect(() => {
-  if (user.value)
-    navigateTo('/')
+watchEffect(async () => {
+  if (user.value) {
+    await navigateTo(route.query.redirectTo as string, {
+      replace: true,
+    })
+  }
 })
 </script>
 
