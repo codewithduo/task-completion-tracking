@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: 'blank',
+})
+
 const supabase = useSupabaseAuthClient()
 const user = useSupabaseUser()
 const route = useRoute()
@@ -32,7 +36,7 @@ watchEffect(async () => {
     </h1>
     <div class="actions">
       <button type="button" class="login" @click="handleLogin">
-        Login With Github
+        <Icon name="uil:github" size="20" /> Continue with GitHub
       </button>
     </div>
   </div>
@@ -55,13 +59,17 @@ watchEffect(async () => {
 
   > .actions  > .login {
     padding: 8px 16px;
-    background-color: $secondary-color;
+    background-color: $dark-color;
     color: $light-color;
     border-radius: 8px;
     transition: 0.3s ease-in;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
 
     &:hover {
-      background-color: lighten($secondary-color, 10%);
+      background-color: lighten($dark-color, 10%);
     }
   }
 }
