@@ -22,7 +22,7 @@ async function handleLogin() {
 
 watchEffect(async () => {
   if (user.value) {
-    await navigateTo(route.query.redirectTo as string, {
+    await navigateTo(route.query.redirectTo as string || 'tasks', {
       replace: true,
     })
   }
