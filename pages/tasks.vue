@@ -67,6 +67,10 @@ async function handleCreateTask() {
   hideModal()
   resetCreateTaskForm()
 }
+
+async function handleDeleteTask(id: number) {
+  await tasksStore.deleteTask(id)
+}
 </script>
 
 <template>
@@ -114,8 +118,8 @@ async function handleCreateTask() {
               <button type="button">
                 <Icon name="uil:edit" />
               </button>
-              <button type="button">
-                <Icon name="uil:trash-alt" />
+              <button type="button" @click="handleDeleteTask(task.id)">
+                <Icon color="red" name="uil:trash-alt" />
               </button>
             </td>
           </tr>

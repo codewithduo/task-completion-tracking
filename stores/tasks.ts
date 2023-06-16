@@ -28,5 +28,17 @@ export const useTasksStore = defineStore('tasks', () => {
     tasks.value.push(data.value as Task)
   }
 
-  return { tasks, fetchTasks, createTask }
+  const deleteTask = async (id: number) => {
+    const { error } = await useFetch<Task>(`/api/tasks/${id}`, {
+      method: 'DELETE',
+      headers: useRequestHeaders(['cookie']),
+    })
+
+    if (error.value)
+      return alert(error)
+
+    tasks.value = tasks.value.filter(task => task.id !== id)
+  }
+
+  return { tasks, fetchTasks, createTask, deleteTask }
 })
