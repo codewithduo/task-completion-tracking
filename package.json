@@ -1,6 +1,7 @@
 {
   "name": "nuxt-app",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -29,5 +30,8 @@
   },
   "lint-staged": {
     "*.{ts,vue}": "npm run lint:fix"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }
