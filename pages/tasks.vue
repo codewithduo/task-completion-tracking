@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { format } from 'date-fns'
 import { useTasksStore } from '~/stores/tasks'
+import type { CreateTaskData } from '~/server/api/tasks/index.post'
 
 definePageMeta({
   middleware: 'auth',
@@ -46,6 +47,26 @@ await tasksStore.fetchTasks()
 const isVisible = ref(false)
 const showModal = () => isVisible.value = true
 const hideModal = () => isVisible.value = false
+
+const createTaskData = reactive<CreateTaskData>({
+  name: '',
+  description: '',
+})
+
+function resetCreateTaskForm() {
+  createTaskData.name = ''
+  createTaskData.description = ''
+}
+
+async function handleCreateTask() {
+  if (!createTaskData.name || !createTaskData.description)
+    return alert('Please fill all fields')
+
+  await tasksStore.createTask(createTaskData)
+
+  hideModal()
+  resetCreateTaskForm()
+}
 </script>
 
 <template>
@@ -116,16 +137,16 @@ const hideModal = () => isVisible.value = false
           <form class="form">
             <div class="form-item">
               <label class="label" for="name">Name</label>
-              <input id="name" class="input" type="text">
+              <input id="name" v-model="createTaskData.name" class="input" type="text">
             </div>
             <div class="form-item">
               <label class="label" for="description">Description</label>
-              <textarea id="description" class="input" type="textarea" rows="3" />
+              <textarea id="description" v-model="createTaskData.description" class="input" type="textarea" rows="3" />
             </div>
           </form>
         </div>
         <div class="actions">
-          <button type="button" class="save">
+          <button type="button" class="save" @click="handleCreateTask">
             <Icon name="uil:save" /> Save
           </button>
           <button type="button" class="cancel" @click="hideModal">
