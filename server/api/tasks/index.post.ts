@@ -4,6 +4,11 @@ import { Prisma } from '@prisma/client'
 import { REQUEST_USER_KEY } from '../../constants'
 import prismaClient from '../../database/prismaClient'
 
+const createTaskData = Prisma.validator<Prisma.TaskArgs>()({
+  select: { name: true, description: true },
+})
+export type CreateTaskData = Prisma.TaskGetPayload<typeof createTaskData>
+
 function createTask(name: string, description: string, userEmail: string) {
   return Prisma.validator<Prisma.TaskCreateInput>()({
     name,
@@ -13,7 +18,7 @@ function createTask(name: string, description: string, userEmail: string) {
 }
 
 export default defineEventHandler(async (event: H3Event): Promise<Task> => {
-  const body = await readBody(event)
+  const body: CreateTaskData = await readBody(event)
   const { name, description } = body
 
   if (!name || !description) {
