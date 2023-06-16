@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+
 const prisma = new PrismaClient()
 
 async function main() {
@@ -18,7 +19,7 @@ async function main() {
         name: 'Implement create task api',
         description: 'POST api/tasks create new task',
         userEmail: 'tranduong3701@gmail.com',
-      }
+      },
     ],
   })
 }

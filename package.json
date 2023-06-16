@@ -1,7 +1,7 @@
 {
   "name": "nuxt-app",
-  "private": true,
   "type": "module",
+  "private": true,
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -15,6 +15,7 @@
     "@nuxtjs/supabase": "^0.3.7",
     "@pinia/nuxt": "^0.4.11",
     "@prisma/client": "^4.15.0",
+    "date-fns": "^2.30.0",
     "pinia": "^2.1.4"
   },
   "devDependencies": {
@@ -30,13 +31,13 @@
     "sass": "^1.63.4",
     "vue-tsc": "^1.6.5"
   },
+  "overrides": {
+    "vue": "latest"
+  },
   "lint-staged": {
     "*.{ts,vue}": "npm run lint:fix"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
-  },
-  "overrides": {
-    "vue": "latest"
   }
 }
