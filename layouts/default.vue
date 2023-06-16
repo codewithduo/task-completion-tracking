@@ -117,7 +117,6 @@ async function logout() {
 
   > .footer {
     padding: 20px;
-    font-size: 12px;
     display: flex;
     justify-content: space-between;
   }
