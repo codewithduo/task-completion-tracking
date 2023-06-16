@@ -14,7 +14,7 @@ async function logout() {
   if (error)
     return alert('Something went wrong !')
 
-  await navigateTo('login')
+  await navigateTo('/login')
 }
 </script>
 
