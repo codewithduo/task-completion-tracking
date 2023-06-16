@@ -71,6 +71,10 @@ async function handleCreateTask() {
 async function handleDeleteTask(id: number) {
   await tasksStore.deleteTask(id)
 }
+
+function handleNavigateToTask(id: number) {
+  return navigateTo(`/tasks/${id}/understand`)
+}
 </script>
 
 <template>
@@ -112,7 +116,7 @@ async function handleDeleteTask(id: number) {
               {{ format(new Date(task.updatedAt!), 'MMM do yyyy') }}
             </td>
             <td class="cell">
-              <button type="button">
+              <button type="button" @click="handleNavigateToTask(task.id)">
                 <Icon name="uil:location-arrow" />
               </button>
               <button type="button">
