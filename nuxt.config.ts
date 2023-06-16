@@ -17,5 +17,12 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/supabase',
     'nuxt-icon',
+    '@pinia/nuxt',
   ],
+  pinia: {
+    autoImports: [
+      'defineStore',
+      'storeToRefs',
+    ],
+  },
 })
