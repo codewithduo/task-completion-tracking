@@ -4,6 +4,8 @@ import { REQUEST_USER_KEY } from '../../constants'
 import prismaClient from '../../database/prismaClient'
 
 export default defineEventHandler(async (event: H3Event): Promise<Task[]> => {
+  protectRoute(event)
+
   const { email: userEmail } = event.context[REQUEST_USER_KEY]
 
   const tasks = await prismaClient.task.findMany({

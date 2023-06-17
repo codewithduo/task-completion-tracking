@@ -18,6 +18,8 @@ function createTask(name: string, description: string, userEmail: string) {
 }
 
 export default defineEventHandler(async (event: H3Event): Promise<Task> => {
+  protectRoute(event)
+
   const body: CreateTaskData = await readBody(event)
   const { name, description } = body
 
