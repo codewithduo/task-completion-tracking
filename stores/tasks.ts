@@ -3,6 +3,7 @@ import type { CreateTaskData } from '~/server/api/tasks/index.post'
 
 export const useTasksStore = defineStore('tasks', () => {
   const tasks = ref<Task[]>([])
+  const task = ref<Task>()
 
   const fetchTasks = async () => {
     const { data, error } = await useFetch<Task[]>('/api/tasks', {
@@ -13,6 +14,17 @@ export const useTasksStore = defineStore('tasks', () => {
       return alert(error)
 
     tasks.value = data.value as Task[]
+  }
+
+  const fetchTask = async (id: number) => {
+    const { data, error } = await useFetch<Task>(`/api/tasks/${id}`, {
+      headers: useRequestHeaders(['cookie']),
+    })
+
+    if (error.value)
+      return alert(error)
+
+    task.value = data.value as Task
   }
 
   const createTask = async (createTaskData: CreateTaskData) => {
@@ -40,5 +52,5 @@ export const useTasksStore = defineStore('tasks', () => {
     tasks.value = tasks.value.filter(task => task.id !== id)
   }
 
-  return { tasks, fetchTasks, createTask, deleteTask }
+  return { task, tasks, fetchTasks, createTask, deleteTask, fetchTask }
 })

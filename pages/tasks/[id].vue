@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useTasksStore } from '~/stores/tasks'
+
 definePageMeta({
   middleware: 'auth',
 })
@@ -27,13 +29,25 @@ const steps = [
 ]
 
 const activeStep = ref(1)
-const setActiveStep = (stepId: number) => activeStep.value = stepId
+const setActiveStep = (stepId: number) => (activeStep.value = stepId)
+
+const route = useRoute()
+const taskId = +route.params.id
+const tasksStore = useTasksStore()
+const { task } = storeToRefs(tasksStore)
+await tasksStore.fetchTask(taskId)
 </script>
 
 <template>
   <div class="task-details-page">
     <div class="task-steps">
-      <NuxtLink v-for="step in steps" :key="step.id" :to="step.path" class="step-item" @click="setActiveStep(step.id)">
+      <NuxtLink
+        v-for="step in steps"
+        :key="step.id"
+        :to="step.path"
+        class="step-item"
+        @click="setActiveStep(step.id)"
+      >
         <div class="order" :class="{ '-active': step.id === activeStep }">
           {{ step.id }}
         </div>
@@ -43,7 +57,7 @@ const setActiveStep = (stepId: number) => activeStep.value = stepId
       </NuxtLink>
     </div>
     <div class="step-content">
-      <NuxtPage />
+      <NuxtPage :task="task" />
     </div>
   </div>
 </template>
