@@ -1,9 +1,10 @@
 import type { Task } from '@prisma/client'
-import type { CreateTaskData } from '~/server/api/tasks/index.post'
+import type { CreateTaskData } from '~/server/api/tasks.post'
+import type { TaskWithOverview } from '~/server/api/tasks/[id].get'
 
 export const useTasksStore = defineStore('tasks', () => {
   const tasks = ref<Task[]>([])
-  const task = ref<Task>()
+  const task = ref<TaskWithOverview>()
 
   const fetchTasks = async () => {
     const { data, error } = await useFetch<Task[]>('/api/tasks', {
@@ -17,14 +18,14 @@ export const useTasksStore = defineStore('tasks', () => {
   }
 
   const fetchTask = async (id: number) => {
-    const { data, error } = await useFetch<Task>(`/api/tasks/${id}`, {
+    const { data, error } = await useFetch<TaskWithOverview>(`/api/tasks/${id}`, {
       headers: useRequestHeaders(['cookie']),
     })
 
     if (error.value)
       return alert(error)
 
-    task.value = data.value as Task
+    task.value = data.value as TaskWithOverview
   }
 
   const createTask = async (createTaskData: CreateTaskData) => {
