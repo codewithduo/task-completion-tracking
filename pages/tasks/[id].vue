@@ -7,29 +7,30 @@ definePageMeta({
 
 const steps = [
   {
-    id: 1,
     name: 'Understand',
     path: 'understand',
   },
   {
-    id: 2,
+    name: 'Estimation',
+    path: 'estimation',
+  },
+  {
     name: 'Solve',
     path: 'solve',
   },
   {
-    id: 3,
     name: 'Implement',
     path: 'implement',
   },
   {
-    id: 4,
     name: 'Test',
     path: 'test',
   },
 ]
 
-const activeStep = ref(1)
-const setActiveStep = (stepId: number) => (activeStep.value = stepId)
+function isActiveStep(path: string) {
+  return useRoute().path.includes(path)
+}
 
 const route = useRoute()
 const taskId = +route.params.id
@@ -43,17 +44,12 @@ await tasksStore.fetchTask(taskId)
     <div class="task-steps">
       <NuxtLink
         v-for="step in steps"
-        :key="step.id"
+        :key="step.path"
         :to="step.path"
         class="step-item"
-        @click="setActiveStep(step.id)"
+        :class="{ '-active': isActiveStep(step.path) }"
       >
-        <div class="order" :class="{ '-active': step.id === activeStep }">
-          {{ step.id }}
-        </div>
-        <h3 class="name">
-          {{ step.name }}
-        </h3>
+        {{ step.name }}
       </NuxtLink>
     </div>
     <div class="step-content">
@@ -64,20 +60,13 @@ await tasksStore.fetchTask(taskId)
 
 <style scoped lang="scss">
 .task-details-page {
-  display: flex;
-  gap: 32px;
-
-  > .step-content {
-    background-color: $light-color;
-    flex-grow: 1;
-  }
-
   > .task-steps {
     display: flex;
-    height: 78vh;
-    justify-content: space-between;
-    flex-direction: column;
-    padding: 20px;
+    gap: 16px;
+    text-align: center;
+  }
+
+  > .step-content {
     background-color: $light-color;
   }
 }
@@ -85,24 +74,17 @@ await tasksStore.fetchTask(taskId)
 .task-steps {
   > .step-item {
     display: flex;
-    gap: 16px;
     align-items: center;
-    padding: 16px;
-  }
-
-  > .step-item > .order {
-    height: 50px;
-    width: 50px;
-    background-color: $gray-color;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
+    padding: 8px;
+    gap: 8px;
+    min-width: 200px;
     justify-content: center;
-    color: $light-color;
+
   }
 
-  > .step-item > .order.-active {
-    background-color: $primary-color;
+  > .step-item.-active {
+    border-bottom: 3px solid $primary-color;
+    color: $primary-color;
   }
 }
 </style>
