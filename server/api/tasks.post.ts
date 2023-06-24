@@ -1,8 +1,8 @@
 import type { H3Event } from 'h3'
-import type { Task } from '@prisma/client'
 import { Prisma } from '@prisma/client'
-import { REQUEST_USER_KEY } from '../../constants'
-import prismaClient from '../../database/prismaClient'
+import type { Task } from '@prisma/client'
+import { REQUEST_USER_KEY } from '../constants'
+import prismaClient from '../database/prismaClient'
 
 const createTaskData = Prisma.validator<Prisma.TaskArgs>()({
   select: { name: true, description: true },

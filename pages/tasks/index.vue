@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { format } from 'date-fns'
 import { useTasksStore } from '~/stores/tasks'
-import type { CreateTaskData } from '~/server/api/tasks/index.post'
+import type { CreateTaskData } from '~/server/api/tasks.post'
 
 definePageMeta({
   middleware: 'auth',
@@ -45,8 +45,8 @@ const { tasks } = storeToRefs(tasksStore)
 await tasksStore.fetchTasks()
 
 const isVisible = ref(false)
-const showModal = () => isVisible.value = true
-const hideModal = () => isVisible.value = false
+const showModal = () => (isVisible.value = true)
+const hideModal = () => (isVisible.value = false)
 
 const createTaskData = reactive<CreateTaskData>({
   name: '',
@@ -93,13 +93,23 @@ function handleNavigateToTask(id: number) {
       <table class="task-table">
         <thead class="head">
           <tr class="row">
-            <th v-for="column in taskColumns" :key="column.name" class="cell" :width="column.width">
+            <th
+              v-for="column in taskColumns"
+              :key="column.name"
+              class="cell"
+              :width="column.width"
+            >
               {{ column.label }}
             </th>
           </tr>
         </thead>
         <tbody class="body">
-          <tr v-for="(task, index) in tasks" :key="task.id" class="row" :class="{ '-stripe': index % 2 === 1 }">
+          <tr
+            v-for="(task, index) in tasks"
+            :key="task.id"
+            class="row"
+            :class="{ '-stripe': index % 2 === 1 }"
+          >
             <td class="cell">
               {{ `#${task.id}` }}
             </td>
@@ -110,10 +120,10 @@ function handleNavigateToTask(id: number) {
               {{ task.description }}
             </td>
             <td class="cell">
-              {{ format(new Date(task.createdAt), 'MMM do yyyy') }}
+              {{ format(new Date(task.createdAt), "MMM do yyyy") }}
             </td>
             <td class="cell">
-              {{ format(new Date(task.updatedAt!), 'MMM do yyyy') }}
+              {{ format(new Date(task.updatedAt!), "MMM do yyyy") }}
             </td>
             <td class="cell">
               <button type="button" @click="handleNavigateToTask(task.id)">
@@ -145,11 +155,22 @@ function handleNavigateToTask(id: number) {
           <form class="form">
             <div class="form-item">
               <label class="label" for="name">Name</label>
-              <input id="name" v-model="createTaskData.name" class="input" type="text">
+              <input
+                id="name"
+                v-model="createTaskData.name"
+                class="input"
+                type="text"
+              >
             </div>
             <div class="form-item">
               <label class="label" for="description">Description</label>
-              <textarea id="description" v-model="createTaskData.description" class="input" type="textarea" rows="3" />
+              <textarea
+                id="description"
+                v-model="createTaskData.description"
+                class="input"
+                type="textarea"
+                rows="3"
+              />
             </div>
           </form>
         </div>
@@ -233,12 +254,12 @@ function handleNavigateToTask(id: number) {
 }
 
 .task-modal {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 2;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
 
   > .overlay {
     width: 100%;
