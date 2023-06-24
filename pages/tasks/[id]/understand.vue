@@ -1,26 +1,31 @@
 <script setup lang="ts">
+import type { TaskWithOverview } from '~/server/api/tasks/[id].get'
 import { useTaskOverviewsStore } from '~/stores/task-overviews'
+
+const props = defineProps<{
+  task: TaskWithOverview
+}>()
 
 const route = useRoute()
 const taskId = +route.params.id
 
 const taskOverviewForm = reactive({
-  userInterface: '',
-  taskBehavior: '',
-  taskInteraction: '',
+  userInterface: props.task.taskOverview?.userInterface || '',
+  taskBehavior: props.task.taskOverview?.taskBehavior || '',
+  taskInteraction: props.task.taskOverview?.taskInteraction || '',
 })
 
 const taskOverviewStore = useTaskOverviewsStore()
 
-function handleCreateTask() {
+function handleCreateOrUpdateTaskOverview() {
   if (
     !taskOverviewForm.userInterface
-    || !taskOverviewForm.taskBehavior
-    || !taskOverviewForm.taskInteraction
+    && !taskOverviewForm.taskBehavior
+    && !taskOverviewForm.taskInteraction
   )
     return alert('Please fill all fields')
 
-  taskOverviewStore.createTaskOverview(taskId, taskOverviewForm)
+  taskOverviewStore.createOrUpdateTaskOverview(taskId, taskOverviewForm)
 }
 </script>
 
@@ -58,7 +63,11 @@ function handleCreateTask() {
         </div>
       </fieldset>
       <div class="actions">
-        <button class="submit" type="button" @click="handleCreateTask">
+        <button
+          class="submit"
+          type="button"
+          @click="handleCreateOrUpdateTaskOverview"
+        >
           Save
         </button>
         <button class="cancel" type="button">

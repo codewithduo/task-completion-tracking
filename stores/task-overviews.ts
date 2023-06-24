@@ -1,7 +1,7 @@
 import type { TaskOverview } from '@prisma/client'
 
 export const useTaskOverviewsStore = defineStore('task-overviews', () => {
-  const createTaskOverview = async (taskId: number, createTaskOverviewData: any) => {
+  const createOrUpdateTaskOverview = async (taskId: number, createTaskOverviewData: any) => {
     const { error } = await useFetch<TaskOverview>(`/api/tasks/${taskId}/overviews`, {
       method: 'POST',
       headers: useRequestHeaders(['cookie']),
@@ -12,5 +12,5 @@ export const useTaskOverviewsStore = defineStore('task-overviews', () => {
       return alert(error)
   }
 
-  return { createTaskOverview }
+  return { createOrUpdateTaskOverview }
 })
