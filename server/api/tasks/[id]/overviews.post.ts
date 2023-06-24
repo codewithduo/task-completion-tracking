@@ -13,9 +13,11 @@ export default defineEventHandler(async (event: H3Event) => {
   const createOrUpdateTaskOverviewDto: CreateOrUpdateTaskOverviewDto = await readBody(event)
   const taskId = Number(event.context.params?.id)
 
-  await prismaClient.taskOverview.upsert({
+  const taskOverview = await prismaClient.taskOverview.upsert({
     where: { taskId },
     create: { ...createOrUpdateTaskOverviewDto, taskId },
     update: createOrUpdateTaskOverviewDto,
   })
+
+  return taskOverview
 })

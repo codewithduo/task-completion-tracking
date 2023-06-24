@@ -17,7 +17,15 @@ const taskOverviewForm = reactive({
 
 const taskOverviewStore = useTaskOverviewsStore()
 
-function handleCreateOrUpdateTaskOverview() {
+const userInterfaceRef = ref()
+const isEditMode = ref(!props.task.taskOverview)
+function openEditMode() {
+  isEditMode.value = true
+}
+
+const closeEditMode = () => isEditMode.value = false
+
+async function handleCreateOrUpdateTaskOverview() {
   if (
     !taskOverviewForm.userInterface
     && !taskOverviewForm.taskBehavior
@@ -25,8 +33,19 @@ function handleCreateOrUpdateTaskOverview() {
   )
     return alert('Please fill all fields')
 
-  taskOverviewStore.createOrUpdateTaskOverview(taskId, taskOverviewForm)
+  await taskOverviewStore.createOrUpdateTaskOverview(taskId, taskOverviewForm)
+  closeEditMode()
 }
+
+onMounted(() => {
+  if (isEditMode.value)
+    userInterfaceRef.value.focus()
+})
+
+onUpdated(() => {
+  if (isEditMode.value)
+    userInterfaceRef.value.focus()
+})
 </script>
 
 <template>
@@ -40,7 +59,9 @@ function handleCreateOrUpdateTaskOverview() {
         <div class="form-item">
           <label class="label">What does the user see?</label>
           <textarea
+            ref="userInterfaceRef"
             v-model="taskOverviewForm.userInterface"
+            :disabled="!isEditMode"
             class="input"
             rows="4"
           />
@@ -49,6 +70,7 @@ function handleCreateOrUpdateTaskOverview() {
           <label class="label">How does each part behave?</label>
           <textarea
             v-model="taskOverviewForm.taskBehavior"
+            :disabled="!isEditMode"
             class="input"
             rows="4"
           />
@@ -57,6 +79,7 @@ function handleCreateOrUpdateTaskOverview() {
           <label class="label">What interaction is there with other components?</label>
           <textarea
             v-model="taskOverviewForm.taskInteraction"
+            :disabled="!isEditMode"
             class="input"
             rows="4"
           />
@@ -64,14 +87,24 @@ function handleCreateOrUpdateTaskOverview() {
       </fieldset>
       <div class="actions">
         <button
-          class="submit"
+          v-if="!isEditMode"
+          class="edit"
+          type="button"
+          @click="openEditMode"
+        >
+          <Icon name="uil:edit" /> Edit
+        </button>
+        <button
+          v-if="isEditMode"
+          class="save"
           type="button"
           @click="handleCreateOrUpdateTaskOverview"
         >
-          Save
+          <Icon name="uil:save" /> Save
         </button>
-        <button class="cancel" type="button">
-          Cancel
+
+        <button v-if="isEditMode" class="cancel" type="button" @click="closeEditMode">
+          <Icon name="uil:multiply" /> Cancel
         </button>
       </div>
     </form>
@@ -99,10 +132,6 @@ function handleCreateOrUpdateTaskOverview() {
     padding: 8px;
     border-radius: 4px;
     box-shadow: $box-shadow-small;
-
-    &:focus {
-      outline: none;
-    }
   }
 
   > .overview > .actions {
@@ -112,17 +141,26 @@ function handleCreateOrUpdateTaskOverview() {
     gap: 16px;
   }
 
-  > .overview > .actions > .submit {
+  > .overview > .actions > .button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     padding: 8px 20px;
-    background-color: $primary-color;
     color: $light-color;
     border-radius: 4px;
   }
+
+  > .overview > .actions > .edit {
+    @extend .button;
+    background-color: $danger-color;
+  }
+  > .overview > .actions > .save {
+    @extend .button;
+    background-color: $primary-color;
+  }
   > .overview > .actions > .cancel {
-    padding: 8px 20px;
+    @extend .button;
     background-color: $secondary-color;
-    color: $light-color;
-    border-radius: 4px;
   }
 }
 </style>

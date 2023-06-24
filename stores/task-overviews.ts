@@ -9,7 +9,7 @@ export const useTaskOverviewsStore = defineStore('task-overviews', () => {
     })
 
     if (error.value)
-      return alert(error)
+      return alert(error.value.message)
   }
 
   return { createOrUpdateTaskOverview }
