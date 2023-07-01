@@ -11,6 +11,10 @@ const steps = [
     path: 'understand',
   },
   {
+    name: 'Edge Case',
+    path: 'edge-cases',
+  },
+  {
     name: 'Estimation',
     path: 'estimation',
   },
