@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { TaskWithOverview } from '~/server/api/tasks/[id].get'
+import type { TaskRelation } from '~/server/api/tasks/[id].get'
 import { useTaskOverviewsStore } from '~/stores/task-overviews'
 
 const props = defineProps<{
-  task: TaskWithOverview
+  task: TaskRelation
 }>()
 
 const route = useRoute()
