@@ -127,7 +127,7 @@ function handleNavigateToTask(id: number) {
             </td>
             <td class="cell">
               <button type="button" @click="handleNavigateToTask(task.id)">
-                <Icon name="uil:location-arrow" />
+                <Icon name="uil:location-arrow" color="blue" />
               </button>
               <button type="button">
                 <Icon name="uil:edit" />
@@ -314,7 +314,6 @@ function handleNavigateToTask(id: number) {
     padding: 8px;
     border: 1px solid $gray-color;
     border-radius: 4px;
-    box-shadow: $box-shadow-small;
 
     &:focus {
       outline: none;

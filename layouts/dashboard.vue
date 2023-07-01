@@ -1,11 +1,7 @@
 <script lang="ts" setup>
 const user = useSupabaseUser()
-const username = computed(() =>
-  user.value?.user_metadata.full_name,
-)
-const avatar = computed(() =>
-  user.value?.user_metadata.avatar_url,
-)
+const username = computed(() => user.value?.user_metadata.full_name)
+const avatar = computed(() => user.value?.user_metadata.avatar_url)
 
 const supabase = useSupabaseClient()
 async function logout() {
@@ -35,7 +31,12 @@ function toggleSidebar() {
     </aside>
     <div class="main-content">
       <header class="header">
-        <Icon class="toggle" name="uil:align" size="30" @click="toggleSidebar" />
+        <Icon
+          class="toggle"
+          name="uil:align"
+          size="30"
+          @click="toggleSidebar"
+        />
         <div class="user-card">
           <img class="avatar" :src="avatar" alt="user-avatar">
           <div class="content">
@@ -106,7 +107,7 @@ function toggleSidebar() {
 
   > .main-content > .header {
     width: 100%;
-    padding: 8px 20px;
+    padding: 8px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;

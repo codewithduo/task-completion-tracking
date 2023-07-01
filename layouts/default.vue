@@ -1,11 +1,7 @@
 <script setup lang="ts">
 const user = useSupabaseUser()
-const username = computed(() =>
-  user.value?.user_metadata.full_name,
-)
-const avatar = computed(() =>
-  user.value?.user_metadata.avatar_url,
-)
+const username = computed(() => user.value?.user_metadata.full_name)
+const avatar = computed(() => user.value?.user_metadata.avatar_url)
 
 const supabase = useSupabaseClient()
 async function logout() {
@@ -69,7 +65,7 @@ async function logout() {
 
   > .header {
     width: 100%;
-    padding: 8px 20px;
+    padding: 16px 20px;
     display: flex;
     justify-content: space-between;
     box-shadow: $box-shadow-large;

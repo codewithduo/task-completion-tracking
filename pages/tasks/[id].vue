@@ -64,6 +64,7 @@ await tasksStore.fetchTask(taskId)
     display: flex;
     gap: 16px;
     text-align: center;
+    margin-top: 16px;
   }
 
   > .step-content {
@@ -79,7 +80,6 @@ await tasksStore.fetchTask(taskId)
     gap: 8px;
     min-width: 200px;
     justify-content: center;
-
   }
 
   > .step-item.-active {

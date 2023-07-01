@@ -23,7 +23,7 @@ function openEditMode() {
   isEditMode.value = true
 }
 
-const closeEditMode = () => isEditMode.value = false
+const closeEditMode = () => (isEditMode.value = false)
 
 async function handleCreateOrUpdateTaskOverview() {
   if (
@@ -103,7 +103,12 @@ onUpdated(() => {
           <Icon name="uil:save" /> Save
         </button>
 
-        <button v-if="isEditMode" class="cancel" type="button" @click="closeEditMode">
+        <button
+          v-if="isEditMode"
+          class="cancel"
+          type="button"
+          @click="closeEditMode"
+        >
           <Icon name="uil:multiply" /> Cancel
         </button>
       </div>
@@ -131,7 +136,6 @@ onUpdated(() => {
     border: 1px solid $gray-color;
     padding: 8px;
     border-radius: 4px;
-    box-shadow: $box-shadow-small;
   }
 
   > .overview > .actions {
