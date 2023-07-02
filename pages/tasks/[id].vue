@@ -5,37 +5,6 @@ definePageMeta({
   middleware: 'auth',
 })
 
-const steps = [
-  {
-    name: 'Understand',
-    path: 'understand',
-  },
-  {
-    name: 'Edge Case',
-    path: 'edge-cases',
-  },
-  {
-    name: 'Estimation',
-    path: 'estimation',
-  },
-  {
-    name: 'Solve',
-    path: 'solve',
-  },
-  {
-    name: 'Implement',
-    path: 'implement',
-  },
-  {
-    name: 'Test',
-    path: 'test',
-  },
-]
-
-function isActiveStep(path: string) {
-  return useRoute().path.includes(path)
-}
-
 const route = useRoute()
 const taskId = +route.params.id
 const tasksStore = useTasksStore()
@@ -45,17 +14,7 @@ await tasksStore.fetchTask(taskId)
 
 <template>
   <div class="task-details-page">
-    <div class="task-steps">
-      <NuxtLink
-        v-for="step in steps"
-        :key="step.path"
-        :to="step.path"
-        class="step-item"
-        :class="{ '-active': isActiveStep(step.path) }"
-      >
-        {{ step.name }}
-      </NuxtLink>
-    </div>
+    <TaskStepList />
     <div class="step-content">
       <NuxtPage :task="task" />
     </div>
