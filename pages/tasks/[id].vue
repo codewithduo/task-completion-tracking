@@ -14,7 +14,9 @@ await tasksStore.fetchTask(taskId)
 
 <template>
   <div class="task-details-page">
-    <TaskStepList />
+    <div class="task-steps">
+      <TaskStepList />
+    </div>
     <div class="step-content">
       <NuxtPage :task="task" />
     </div>
@@ -32,22 +34,6 @@ await tasksStore.fetchTask(taskId)
 
   > .step-content {
     background-color: $light-color;
-  }
-}
-
-.task-steps {
-  > .step-item {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    gap: 8px;
-    min-width: 200px;
-    justify-content: center;
-  }
-
-  > .step-item.-active {
-    border-bottom: 3px solid $primary-color;
-    color: $primary-color;
   }
 }
 </style>
