@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TaskRelation } from '~/server/api/tasks/[id].get'
+import { useNotificationStore } from '~/stores/notifications'
 import { useTaskOverviewsStore } from '~/stores/task-overviews'
 
 const props = defineProps<{
@@ -16,6 +17,7 @@ const taskOverviewForm = reactive({
 })
 
 const taskOverviewStore = useTaskOverviewsStore()
+const notificationStore = useNotificationStore()
 
 const userInterfaceRef = ref()
 const isEditMode = ref(!props.task.taskOverview)
@@ -30,8 +32,13 @@ async function handleCreateOrUpdateTaskOverview() {
     !taskOverviewForm.userInterface
     && !taskOverviewForm.taskBehavior
     && !taskOverviewForm.taskInteraction
-  )
-    return alert('Please fill all fields')
+  ) {
+    return notificationStore.addNotification({
+      id: useUniqueId(),
+      message: 'Please fill all fields',
+      type: 'error',
+    })
+  }
 
   await taskOverviewStore.createOrUpdateTaskOverview(taskId, taskOverviewForm)
   closeEditMode()
@@ -120,22 +127,19 @@ onUpdated(() => {
 .task-understand {
   padding: 16px;
 
-  > .overview > .fieldset {
-    border-color: $gray-color;
+  > .overview > .fieldset > .description {
+    @apply text-lg font-medium
   }
 
   > .overview > .fieldset > .form-item {
-    width: 100%;
-    padding: 16px;
+    @apply p-2
   }
+
   > .overview > .fieldset > .form-item > .label {
-    display: block;
+    @apply block mb-2 text-sm font-medium text-gray-900
   }
   > .overview > .fieldset > .form-item > .input {
-    width: 100%;
-    border: 1px solid $gray-color;
-    padding: 8px;
-    border-radius: 4px;
+    @apply block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500;
   }
 
   > .overview > .actions {

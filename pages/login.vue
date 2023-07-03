@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { useNotificationStore } from '~/stores/notifications'
+
 definePageMeta({
   layout: 'blank',
 })
 
+const notificationStore = useNotificationStore()
 const supabase = useSupabaseAuthClient()
 const user = useSupabaseUser()
 const route = useRoute()
@@ -16,8 +19,13 @@ async function handleLogin() {
     },
   })
 
-  if (error)
-    return alert('Something went wrong !')
+  if (error) {
+    return notificationStore.addNotification({
+      id: useUniqueId(),
+      message: 'Something went wrong !',
+      type: 'error',
+    })
+  }
 }
 
 watchEffect(async () => {

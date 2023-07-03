@@ -1,14 +1,22 @@
 <script lang="ts" setup>
+import { useNotificationStore } from '~/stores/notifications'
+
 const user = useSupabaseUser()
 const username = computed(() => user.value?.user_metadata.full_name)
 const avatar = computed(() => user.value?.user_metadata.avatar_url)
 
 const supabase = useSupabaseClient()
+const notificationStore = useNotificationStore()
 async function logout() {
   const { error } = await supabase.auth.signOut()
 
-  if (error)
-    return alert('Something went wrong !')
+  if (error) {
+    return notificationStore.addNotification({
+      id: useUniqueId(),
+      message: 'Something went wrong!',
+      type: 'error',
+    })
+  }
 
   await navigateTo('login')
 }
