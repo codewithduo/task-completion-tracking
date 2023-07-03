@@ -2,7 +2,6 @@
 import { format } from 'date-fns'
 import { useTasksStore } from '~/stores/tasks'
 import type { CreateTaskData } from '~/server/api/tasks.post'
-import { useNotificationStore } from '~/stores/notifications'
 
 definePageMeta({
   middleware: 'auth',
@@ -42,8 +41,6 @@ const taskColumns = [
 ]
 
 const tasksStore = useTasksStore()
-const notificationStore = useNotificationStore()
-
 const { tasks } = storeToRefs(tasksStore)
 await tasksStore.fetchTasks()
 
@@ -63,7 +60,7 @@ function resetCreateTaskForm() {
 
 async function handleCreateTask() {
   if (!createTaskData.name || !createTaskData.description) {
-    return notificationStore.addNotification({
+    return useNotification({
       message: 'Please fill all fields',
       type: 'error',
     })

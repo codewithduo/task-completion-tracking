@@ -1,10 +1,6 @@
 import type { TaskOverview } from '@prisma/client'
-import { useNotificationStore } from './notifications'
 
 export const useTaskOverviewsStore = defineStore('task-overviews', () => {
-  const notificationStore = useNotificationStore()
-  const { addNotification } = notificationStore
-
   const createOrUpdateTaskOverview = async (taskId: number, createTaskOverviewData: any) => {
     const { error } = await useFetch<TaskOverview>(`/api/tasks/${taskId}/overviews`, {
       method: 'POST',
@@ -13,13 +9,13 @@ export const useTaskOverviewsStore = defineStore('task-overviews', () => {
     })
 
     if (error.value) {
-      return addNotification({
+      return useNotification({
         type: 'error',
         message: error.value.message,
       })
     }
 
-    addNotification({
+    useNotification({
       message: 'Task overview updated successfully!',
     })
   }

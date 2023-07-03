@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { TaskRelation } from '~/server/api/tasks/[id].get'
-import { useNotificationStore } from '~/stores/notifications'
 import { useTaskOverviewsStore } from '~/stores/task-overviews'
 
 const props = defineProps<{
@@ -17,7 +16,6 @@ const taskOverviewForm = reactive({
 })
 
 const taskOverviewStore = useTaskOverviewsStore()
-const notificationStore = useNotificationStore()
 
 const userInterfaceRef = ref()
 const isEditMode = ref(!props.task.taskOverview)
@@ -33,7 +31,7 @@ async function handleCreateOrUpdateTaskOverview() {
     && !taskOverviewForm.taskBehavior
     && !taskOverviewForm.taskInteraction
   ) {
-    return notificationStore.addNotification({
+    return useNotification({
       message: 'Please fill all fields',
       type: 'error',
     })

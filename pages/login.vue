@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { useNotificationStore } from '~/stores/notifications'
-
 definePageMeta({
   layout: 'blank',
 })
 
-const notificationStore = useNotificationStore()
 const supabase = useSupabaseAuthClient()
 const user = useSupabaseUser()
 const route = useRoute()
@@ -20,7 +17,7 @@ async function handleLogin() {
   })
 
   if (error) {
-    return notificationStore.addNotification({
+    return useNotification({
       message: 'Something went wrong!',
       type: 'error',
     })
