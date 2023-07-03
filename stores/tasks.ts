@@ -16,7 +16,6 @@ export const useTasksStore = defineStore('tasks', () => {
 
     if (error.value) {
       return notificationStore.addNotification({
-        id: useUniqueId(),
         message: error.value.message,
         type: 'error',
       })
@@ -32,7 +31,6 @@ export const useTasksStore = defineStore('tasks', () => {
 
     if (error.value) {
       return notificationStore.addNotification({
-        id: useUniqueId(),
         message: error.value.message,
         type: 'error',
       })
@@ -50,7 +48,6 @@ export const useTasksStore = defineStore('tasks', () => {
 
     if (error.value) {
       return notificationStore.addNotification({
-        id: useUniqueId(),
         message: error.value.message,
         type: 'error',
       })
@@ -59,9 +56,7 @@ export const useTasksStore = defineStore('tasks', () => {
     tasks.value.push(data.value as Task)
 
     notificationStore.addNotification({
-      id: useUniqueId(),
       message: 'Create task successfully!',
-      type: 'success',
     })
   }
 
@@ -73,7 +68,6 @@ export const useTasksStore = defineStore('tasks', () => {
 
     if (error.value) {
       return notificationStore.addNotification({
-        id: useUniqueId(),
         message: error.value.message,
         type: 'error',
       })
@@ -82,9 +76,7 @@ export const useTasksStore = defineStore('tasks', () => {
     tasks.value = tasks.value.filter(task => task.id !== id)
 
     notificationStore.addNotification({
-      id: useUniqueId(),
       message: 'Delete task successfully!',
-      type: 'success',
     })
   }
 

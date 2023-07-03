@@ -34,7 +34,6 @@ async function handleCreateOrUpdateTaskOverview() {
     && !taskOverviewForm.taskInteraction
   ) {
     return notificationStore.addNotification({
-      id: useUniqueId(),
       message: 'Please fill all fields',
       type: 'error',
     })

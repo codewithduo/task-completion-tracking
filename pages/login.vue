@@ -21,8 +21,7 @@ async function handleLogin() {
 
   if (error) {
     return notificationStore.addNotification({
-      id: useUniqueId(),
-      message: 'Something went wrong !',
+      message: 'Something went wrong!',
       type: 'error',
     })
   }

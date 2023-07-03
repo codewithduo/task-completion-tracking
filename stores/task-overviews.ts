@@ -14,15 +14,12 @@ export const useTaskOverviewsStore = defineStore('task-overviews', () => {
 
     if (error.value) {
       return addNotification({
-        id: useUniqueId(),
         type: 'error',
         message: error.value.message,
       })
     }
 
     addNotification({
-      id: useUniqueId(),
-      type: 'success',
       message: 'Task overview updated successfully!',
     })
   }

@@ -64,7 +64,6 @@ function resetCreateTaskForm() {
 async function handleCreateTask() {
   if (!createTaskData.name || !createTaskData.description) {
     return notificationStore.addNotification({
-      id: useUniqueId(),
       message: 'Please fill all fields',
       type: 'error',
     })

@@ -5,3 +5,8 @@ export interface Notification {
   message: string
   type: NotificationType
 }
+
+export interface CreateNotificationData {
+  message: string
+  type?: NotificationType
+}

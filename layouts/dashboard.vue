@@ -12,7 +12,6 @@ async function logout() {
 
   if (error) {
     return notificationStore.addNotification({
-      id: useUniqueId(),
       message: 'Something went wrong!',
       type: 'error',
     })
