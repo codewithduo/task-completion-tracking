@@ -33,7 +33,6 @@ await tasksStore.fetchTask(taskId)
     display: flex;
     gap: 16px;
     text-align: center;
-    margin-top: 16px;
   }
 
   > .step-content {
