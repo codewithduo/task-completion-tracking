@@ -24,5 +24,6 @@ const { notifications } = storeToRefs(notificationStore)
   right: 0;
   margin-right: 32px;
   margin-top: 100px;
+  z-index: 10;
 }
 </style>
