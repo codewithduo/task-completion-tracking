@@ -63,14 +63,49 @@ const edgeCases = computed(() => {
           </tr>
         </tbody>
       </table>
+      <button type="button" class="create-button">
+        <Icon name="uil:plus" size="30" />
+      </button>
+      <div class="modal-container">
+        <div class="overlay">
+          <!-- Modal content -->
+          <div class="content">
+            <button type="button" class="button-close">
+              <Icon name="uil:multiply" size="20" />
+            </button>
+            <div class="card">
+              <h3 class="header">
+                Add new Edge Case
+              </h3>
+              <form class="body">
+                <div class="form-item">
+                  <label for="name" class="label">Name</label>
+                  <textarea id="name" rows="3" class="input" placeholder="Write your edge case here..." />
+                </div>
+                <div class="form-item">
+                  <label for="solution" class="label">Solution</label>
+                  <textarea id="solution" rows="6" class="input" placeholder="Write your solution here..." />
+                </div>
+              </form>
+              <div class="footer">
+                <button type="submit" class="button-save">
+                  Save
+                </button>
+                <button type="button" class="button-cancel">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .task-edge-cases {
-  height: 100%;
-  @apply p-4
+  @apply p-4 h-full
 }
 
 .edge-cases {
@@ -101,6 +136,56 @@ const edgeCases = computed(() => {
   }
   > .table > .body > .row > .cell {
     @apply px-6 py-4 font-medium text-gray-900 whitespace-nowrap
+  }
+
+  > .create-button {
+    @apply absolute right-0 bottom-0 flex items-center justify-center text-white bg-blue-600 rounded-full w-14 h-14 hover:bg-blue-700;
+  }
+}
+
+.modal-container {
+  @apply flex justify-center items-center bg-[rgba(147,147,147,0.5)] fixed top-0 left-0 right-0 bottom-0 w-full z-10 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-full max-h-full;
+
+  > .overlay {
+    @apply relative w-full max-w-2xl max-h-full
+  }
+
+  > .overlay > .content {
+    @apply relative bg-white rounded-lg shadow w-[100%]
+  }
+
+  > .overlay > .content > .button-close {
+    @apply absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center
+  }
+
+  > .overlay > .content > .card {
+    @apply px-6 py-6 lg:px-8
+  }
+
+  > .overlay > .content > .card > .header {
+    @apply mb-4 text-xl font-medium text-gray-900;
+  }
+  > .overlay > .content > .card > .body {
+    @apply space-y-6;
+  }
+
+  > .overlay > .content > .card > .body > .form-item > .label {
+    @apply block mb-2 text-sm font-medium text-gray-900
+  }
+
+  > .overlay > .content > .card > .body > .form-item > .input {
+    @apply block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500
+  }
+
+  > .overlay > .content > .card > .footer {
+    @apply text-right mt-4
+  }
+  > .overlay > .content > .card > .footer > .button-save {
+    @apply mr-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center
+  }
+
+  > .overlay > .content > .card > .footer > .button-cancel {
+    @apply py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200
   }
 }
 </style>
