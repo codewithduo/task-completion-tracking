@@ -25,6 +25,10 @@ await tasksStore.fetchTask(taskId)
 
 <style scoped lang="scss">
 .task-details-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
   > .task-steps {
     display: flex;
     gap: 16px;
@@ -34,6 +38,7 @@ await tasksStore.fetchTask(taskId)
 
   > .step-content {
     background-color: $light-color;
+    flex-grow: 1;
   }
 }
 </style>
