@@ -5,6 +5,7 @@
         <NuxtLayout>
           <NuxtPage />
         </NuxtLayout>
+        <AppNotificationContainer />
       </div>
     </template>
     <template #fallback>
