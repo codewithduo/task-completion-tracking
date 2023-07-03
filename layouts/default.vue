@@ -77,7 +77,7 @@ async function logout() {
   }
 
   > .header > .title {
-    color: $primary-color;
+    @apply text-5xl font-extrabold text-blue-600
   }
 
   > .header > .user-card {
