@@ -10,18 +10,23 @@ const columns = [
   {
     label: 'Id',
     value: 'id',
+    width: '5%',
   },
   {
     label: 'Name',
     value: 'name',
+    width: '30%',
+
   },
   {
     label: 'Solution',
     value: 'solution',
+    width: '50%',
   },
   {
     label: '',
     value: 'action',
+    width: '10%',
   },
 ]
 
@@ -73,7 +78,7 @@ async function handleCreateTaskEdgeCase() {
         </caption>
         <thead class="head">
           <tr class="row">
-            <th v-for="column in columns" :key="column.value" scope="col" class="cell">
+            <th v-for="column in columns" :key="column.value" :width="column.width" scope="col" class="cell">
               {{ column.label }}
             </th>
           </tr>
@@ -90,13 +95,15 @@ async function handleCreateTaskEdgeCase() {
               {{ edgeCase.solution }}
             </td>
             <td class="cell text-right">
-              <a href="#" class="font-medium text-blue-600 hover:underline"><Icon name="uil:edit" /> Edit</a>
+              <Icon class="font-medium text-blue-600 hover:underline cursor-pointer" name="uil:edit" size="15" />
+              |
+              <Icon class="font-medium text-red-600 hover:underline cursor-pointer" name="uil:trash" size="15" />
             </td>
           </tr>
         </tbody>
       </table>
       <button type="button" class="create-button" @click="showModal">
-        <Icon name="uil:plus" size="30" />
+        <Icon name="uil:plus" size="20" />
       </button>
       <div v-if="isVisible" class="modal-container">
         <div class="overlay">
@@ -137,18 +144,18 @@ async function handleCreateTaskEdgeCase() {
 
 <style scoped lang="scss">
 .task-edge-cases {
-  @apply p-4 h-full
+  @apply p-4 h-full relative
 }
 
 .edge-cases {
-  @apply relative overflow-x-auto sm:rounded-lg h-full;
+  @apply sm:rounded-lg h-[550px] overflow-y-auto;
 
   > .table {
-    @apply w-full text-sm text-left text-gray-500;
+    @apply w-full text-sm text-left text-gray-500 table-fixed
   }
 
   > .table > .caption {
-    @apply py-1 text-lg font-semibold text-left text-gray-900 bg-white
+    @apply py-1 text-lg font-semibold text-left text-gray-900 bg-white sticky top-0
   }
 
   > .table > .caption > .extra {
@@ -156,7 +163,7 @@ async function handleCreateTaskEdgeCase() {
   }
 
   > .table > .head {
-    @apply text-xs text-gray-700 uppercase bg-gray-50
+    @apply text-xs text-gray-700 uppercase bg-gray-50 sticky top-16
   }
 
   > .table > .head > .row > .cell {
@@ -164,14 +171,15 @@ async function handleCreateTaskEdgeCase() {
   }
 
   > .table > .body > .row {
-    @apply bg-white border-b
+    @apply bg-white border-b hover:bg-gray-50
   }
+
   > .table > .body > .row > .cell {
-    @apply px-6 py-4 font-medium text-gray-900 whitespace-nowrap
+    @apply px-6 py-4 font-medium text-gray-900 whitespace-pre-line
   }
 
   > .create-button {
-    @apply absolute right-0 bottom-0 flex items-center justify-center text-white bg-blue-600 rounded-full w-14 h-14 hover:bg-blue-700;
+    @apply absolute top-6 right-7 flex items-center justify-center text-white bg-blue-600 rounded-full w-10 h-10 hover:bg-blue-700;
   }
 }
 
