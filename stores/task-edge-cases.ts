@@ -5,9 +5,12 @@ export const useTaskEdgeCaseStore = defineStore('task-edge-cases', () => {
   const taskEdgeCases = ref<TaskEdgeCase[]>([])
 
   const fetchTaskEdgeCases = async (taskId: number) => {
-    const { data, error } = await useFetch<TaskEdgeCase[]>(`/api/task-edge-cases?taskId=${taskId}`, {
-      headers: useRequestHeaders(['cookie']),
-    })
+    const { data, error } = await useFetch<TaskEdgeCase[]>(
+      `/api/task-edge-cases?taskId=${taskId}`,
+      {
+        headers: useRequestHeaders(['cookie']),
+      },
+    )
 
     if (error.value) {
       return useNotification({
@@ -19,12 +22,17 @@ export const useTaskEdgeCaseStore = defineStore('task-edge-cases', () => {
     taskEdgeCases.value = data.value as TaskEdgeCase[]
   }
 
-  const createTaskEdgeCase = async (createTaskEdgeCaseData: CreateTaskEdgeCaseDto) => {
-    const { data, error } = await useFetch<TaskEdgeCase>('/api/task-edge-cases', {
-      method: 'POST',
-      headers: useRequestHeaders(['cookie']),
-      body: createTaskEdgeCaseData,
-    })
+  const createTaskEdgeCase = async (
+    createTaskEdgeCaseData: CreateTaskEdgeCaseDto,
+  ) => {
+    const { data, error } = await useFetch<TaskEdgeCase>(
+      '/api/task-edge-cases',
+      {
+        method: 'POST',
+        headers: useRequestHeaders(['cookie']),
+        body: createTaskEdgeCaseData,
+      },
+    )
 
     if (error.value) {
       return useNotification({
@@ -40,5 +48,35 @@ export const useTaskEdgeCaseStore = defineStore('task-edge-cases', () => {
     })
   }
 
-  return { createTaskEdgeCase, fetchTaskEdgeCases, taskEdgeCases }
+  const deleteTaskEdgeCase = async (id: number) => {
+    const { error } = await useFetch<TaskEdgeCase>(
+      `/api/task-edge-cases/${id}`,
+      {
+        method: 'DELETE',
+        headers: useRequestHeaders(['cookie']),
+      },
+    )
+
+    if (error.value) {
+      return useNotification({
+        message: error.value.message,
+        type: 'error',
+      })
+    }
+
+    taskEdgeCases.value = taskEdgeCases.value.filter(
+      taskEdgeCase => taskEdgeCase.id !== id,
+    )
+
+    useNotification({
+      message: 'Delete successfully!',
+    })
+  }
+
+  return {
+    createTaskEdgeCase,
+    fetchTaskEdgeCases,
+    taskEdgeCases,
+    deleteTaskEdgeCase,
+  }
 })

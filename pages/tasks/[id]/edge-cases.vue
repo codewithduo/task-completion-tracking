@@ -16,7 +16,6 @@ const columns = [
     label: 'Name',
     value: 'name',
     width: '30%',
-
   },
   {
     label: 'Solution',
@@ -44,7 +43,8 @@ function resetCreateTaskEdgeCaseData() {
 }
 
 const taskEdgeCaseStore = useTaskEdgeCaseStore()
-const { createTaskEdgeCase, fetchTaskEdgeCases } = taskEdgeCaseStore
+const { createTaskEdgeCase, fetchTaskEdgeCases, deleteTaskEdgeCase }
+  = taskEdgeCaseStore
 const { taskEdgeCases } = storeToRefs(taskEdgeCaseStore)
 
 await fetchTaskEdgeCases(props.task.id)
@@ -73,12 +73,19 @@ async function handleCreateTaskEdgeCase() {
         <caption class="caption">
           Edge Cases
           <p class="extra">
-            Think what none trivial state the task might have. Describe them and their solution.
+            Think what none trivial state the task might have. Describe them and
+            their solution.
           </p>
         </caption>
         <thead class="head">
           <tr class="row">
-            <th v-for="column in columns" :key="column.value" :width="column.width" scope="col" class="cell">
+            <th
+              v-for="column in columns"
+              :key="column.value"
+              :width="column.width"
+              scope="col"
+              class="cell"
+            >
               {{ column.label }}
             </th>
           </tr>
@@ -95,9 +102,18 @@ async function handleCreateTaskEdgeCase() {
               {{ edgeCase.solution }}
             </td>
             <td class="cell text-right">
-              <Icon class="font-medium text-blue-600 hover:underline cursor-pointer" name="uil:edit" size="15" />
+              <Icon
+                class="button text-blue-600 "
+                name="uil:edit"
+                size="15"
+              />
               |
-              <Icon class="font-medium text-red-600 hover:underline cursor-pointer" name="uil:trash" size="15" />
+              <Icon
+                class="button text-red-600 "
+                name="uil:trash"
+                size="15"
+                @click="deleteTaskEdgeCase(edgeCase.id)"
+              />
             </td>
           </tr>
         </tbody>
@@ -119,15 +135,31 @@ async function handleCreateTaskEdgeCase() {
               <form class="body">
                 <div class="form-item">
                   <label for="name" class="label">Name</label>
-                  <textarea id="name" v-model="createTaskEdgeCaseData.name" rows="3" class="input" placeholder="Write your edge case here..." />
+                  <textarea
+                    id="name"
+                    v-model="createTaskEdgeCaseData.name"
+                    rows="3"
+                    class="input"
+                    placeholder="Write your edge case here..."
+                  />
                 </div>
                 <div class="form-item">
                   <label for="solution" class="label">Solution</label>
-                  <textarea id="solution" v-model="createTaskEdgeCaseData.solution" rows="6" class="input" placeholder="Write your solution here..." />
+                  <textarea
+                    id="solution"
+                    v-model="createTaskEdgeCaseData.solution"
+                    rows="6"
+                    class="input"
+                    placeholder="Write your solution here..."
+                  />
                 </div>
               </form>
               <div class="footer">
-                <button type="submit" class="button-save" @click="handleCreateTaskEdgeCase">
+                <button
+                  type="submit"
+                  class="button-save"
+                  @click="handleCreateTaskEdgeCase"
+                >
                   Save
                 </button>
                 <button type="button" class="button-cancel" @click="hideModal">
@@ -144,38 +176,42 @@ async function handleCreateTaskEdgeCase() {
 
 <style scoped lang="scss">
 .task-edge-cases {
-  @apply p-4 h-full relative
+  @apply p-4 h-full relative;
 }
 
 .edge-cases {
   @apply sm:rounded-lg h-[550px] overflow-y-auto;
 
   > .table {
-    @apply w-full text-sm text-left text-gray-500 table-fixed
+    @apply w-full text-sm text-left text-gray-500 table-fixed;
   }
 
   > .table > .caption {
-    @apply py-1 text-lg font-semibold text-left text-gray-900 bg-white sticky top-0
+    @apply py-1 text-lg font-semibold text-left text-gray-900 bg-white sticky top-0;
   }
 
   > .table > .caption > .extra {
-    @apply mb-3 text-sm font-normal text-gray-500
+    @apply mb-3 text-sm font-normal text-gray-500;
   }
 
   > .table > .head {
-    @apply text-xs text-gray-700 uppercase bg-gray-50 sticky top-16
+    @apply text-xs text-gray-700 uppercase bg-gray-50 sticky top-16;
   }
 
   > .table > .head > .row > .cell {
-    @apply px-6 py-4
+    @apply px-6 py-4;
   }
 
   > .table > .body > .row {
-    @apply bg-white border-b hover:bg-gray-50
+    @apply bg-white border-b hover:bg-gray-50;
   }
 
   > .table > .body > .row > .cell {
-    @apply px-6 py-4 font-medium text-gray-900 whitespace-pre-line
+    @apply px-6 py-4 font-medium text-gray-900 whitespace-pre-line;
+  }
+
+  > .table > .body > .row > .cell > .button{
+    @apply font-medium hover:underline cursor-pointer;
   }
 
   > .create-button {
@@ -187,19 +223,19 @@ async function handleCreateTaskEdgeCase() {
   @apply flex justify-center items-center bg-[rgba(147,147,147,0.5)] fixed top-0 left-0 right-0 bottom-0 w-full z-10 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-full max-h-full;
 
   > .overlay {
-    @apply relative w-full max-w-2xl max-h-full
+    @apply relative w-full max-w-2xl max-h-full;
   }
 
   > .overlay > .content {
-    @apply relative bg-white rounded-lg shadow w-[100%]
+    @apply relative bg-white rounded-lg shadow w-[100%];
   }
 
   > .overlay > .content > .button-close {
-    @apply absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center
+    @apply absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center;
   }
 
   > .overlay > .content > .card {
-    @apply px-6 py-6 lg:px-8
+    @apply px-6 py-6 lg:px-8;
   }
 
   > .overlay > .content > .card > .header {
@@ -210,22 +246,22 @@ async function handleCreateTaskEdgeCase() {
   }
 
   > .overlay > .content > .card > .body > .form-item > .label {
-    @apply block mb-2 text-sm font-medium text-gray-900
+    @apply block mb-2 text-sm font-medium text-gray-900;
   }
 
   > .overlay > .content > .card > .body > .form-item > .input {
-    @apply block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500
+    @apply block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500;
   }
 
   > .overlay > .content > .card > .footer {
-    @apply text-right mt-4
+    @apply text-right mt-4;
   }
   > .overlay > .content > .card > .footer > .button-save {
-    @apply mr-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center
+    @apply mr-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center;
   }
 
   > .overlay > .content > .card > .footer > .button-cancel {
-    @apply py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200
+    @apply py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200;
   }
 }
 </style>
