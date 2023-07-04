@@ -24,9 +24,6 @@ const columns = [
     value: 'action',
   },
 ]
-const edgeCases = computed(() => {
-  return props.task.taskEdgeCases
-})
 
 const { isVisible, showModal, hideModal } = useModal()
 
@@ -42,7 +39,10 @@ function resetCreateTaskEdgeCaseData() {
 }
 
 const taskEdgeCaseStore = useTaskEdgeCaseStore()
-const { createTaskEdgeCase } = taskEdgeCaseStore
+const { createTaskEdgeCase, fetchTaskEdgeCases } = taskEdgeCaseStore
+const { taskEdgeCases } = storeToRefs(taskEdgeCaseStore)
+
+await fetchTaskEdgeCases(props.task.id)
 
 async function handleCreateTaskEdgeCase() {
   if (!createTaskEdgeCaseData.name || !createTaskEdgeCaseData.solution) {
@@ -79,7 +79,7 @@ async function handleCreateTaskEdgeCase() {
           </tr>
         </thead>
         <tbody class="body">
-          <tr v-for="edgeCase in edgeCases" :key="edgeCase.id" class="row">
+          <tr v-for="edgeCase in taskEdgeCases" :key="edgeCase.id" class="row">
             <td scope="row" class="cell">
               #{{ edgeCase.id }}
             </td>
