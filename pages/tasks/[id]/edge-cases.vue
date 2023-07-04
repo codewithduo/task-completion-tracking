@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TaskRelation } from '~/server/api/tasks/[id].get'
+import { useTaskEdgeCaseStore } from '~/stores/task-edge-cases'
 
 const props = defineProps<{
   task: TaskRelation
@@ -23,10 +24,41 @@ const columns = [
     value: 'action',
   },
 ]
-
 const edgeCases = computed(() => {
   return props.task.taskEdgeCases
 })
+
+const { isVisible, showModal, hideModal } = useModal()
+
+const createTaskEdgeCaseData = reactive({
+  taskId: props.task.id,
+  name: '',
+  solution: '',
+})
+
+function resetCreateTaskEdgeCaseData() {
+  createTaskEdgeCaseData.name = ''
+  createTaskEdgeCaseData.solution = ''
+}
+
+const taskEdgeCaseStore = useTaskEdgeCaseStore()
+const { createTaskEdgeCase } = taskEdgeCaseStore
+
+async function handleCreateTaskEdgeCase() {
+  if (!createTaskEdgeCaseData.name || !createTaskEdgeCaseData.solution) {
+    return useNotification({
+      message: 'Please fill all fields',
+      type: 'error',
+    })
+  }
+
+  await createTaskEdgeCase({
+    ...createTaskEdgeCaseData,
+  })
+
+  hideModal()
+  resetCreateTaskEdgeCaseData()
+}
 </script>
 
 <template>
@@ -63,14 +95,14 @@ const edgeCases = computed(() => {
           </tr>
         </tbody>
       </table>
-      <button type="button" class="create-button">
+      <button type="button" class="create-button" @click="showModal">
         <Icon name="uil:plus" size="30" />
       </button>
-      <div class="modal-container">
+      <div v-if="isVisible" class="modal-container">
         <div class="overlay">
           <!-- Modal content -->
           <div class="content">
-            <button type="button" class="button-close">
+            <button type="button" class="button-close" @click="hideModal">
               <Icon name="uil:multiply" size="20" />
             </button>
             <div class="card">
@@ -80,18 +112,18 @@ const edgeCases = computed(() => {
               <form class="body">
                 <div class="form-item">
                   <label for="name" class="label">Name</label>
-                  <textarea id="name" rows="3" class="input" placeholder="Write your edge case here..." />
+                  <textarea id="name" v-model="createTaskEdgeCaseData.name" rows="3" class="input" placeholder="Write your edge case here..." />
                 </div>
                 <div class="form-item">
                   <label for="solution" class="label">Solution</label>
-                  <textarea id="solution" rows="6" class="input" placeholder="Write your solution here..." />
+                  <textarea id="solution" v-model="createTaskEdgeCaseData.solution" rows="6" class="input" placeholder="Write your solution here..." />
                 </div>
               </form>
               <div class="footer">
-                <button type="submit" class="button-save">
+                <button type="submit" class="button-save" @click="handleCreateTaskEdgeCase">
                   Save
                 </button>
-                <button type="button" class="button-cancel">
+                <button type="button" class="button-cancel" @click="hideModal">
                   Cancel
                 </button>
               </div>
