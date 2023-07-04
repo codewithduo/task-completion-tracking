@@ -40,7 +40,8 @@ watchEffect(async () => {
     </h1>
     <div class="actions">
       <button type="button" class="login" @click="handleLogin">
-        <Icon name="uil:github" size="20" /> Continue with GitHub
+        <Icon name="uil:github" size="20" class="mr-2" />
+        Sign in with Github
       </button>
     </div>
   </div>
@@ -48,33 +49,14 @@ watchEffect(async () => {
 
 <style lang="scss" scoped>
 .login-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  height: 100vh;
+  @apply flex flex-col items-center justify-center w-full h-[100vh];
 
   > .title {
-    text-align: center;
-    color: $primary-color;
+    @apply text-5xl text-blue-600 font-extrabold mb-4;
   }
 
   > .actions  > .login {
-    padding: 8px 16px;
-    background-color: $dark-color;
-    color: $light-color;
-    border-radius: 8px;
-    transition: 0.3s ease-in;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-
-    &:hover {
-      background-color: lighten($dark-color, 10%);
-    }
+    @apply text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2;
   }
 }
 </style>
