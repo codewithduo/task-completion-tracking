@@ -117,14 +117,15 @@ async function logout() {
   }
 
   > .footer {
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
+    @apply flex p-[20px] justify-between
+  }
+
+  > .footer > .copyright {
+    @apply text-sm text-gray-700
   }
 
   > .footer > .socials {
-    display: flex;
-    gap: 8px;
+    @apply flex gap-2
   }
 }
 </style>
