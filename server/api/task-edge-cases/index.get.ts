@@ -6,7 +6,7 @@ export default defineEventHandler(async (event: H3Event): Promise<TaskEdgeCase[]
   protectRoute(event)
 
   const query = getQuery(event)
-  const taskId = +query.taskId
+  const taskId = +query.taskId!
 
   const taskEdgeCases = await prismaClient.taskEdgeCase.findMany({
     where: { taskId },
