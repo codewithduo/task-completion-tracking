@@ -9,33 +9,33 @@ definePageMeta({
 
 const taskColumns = [
   {
-    name: 'id',
+    value: 'id',
     label: 'ID',
     width: '5%',
   },
   {
-    name: 'name',
+    value: 'value',
     label: 'Name',
     width: '20%',
   },
   {
-    name: 'description',
+    value: 'description',
     label: 'Description',
     width: '45%',
   },
   {
-    name: 'createdAt',
+    value: 'createdAt',
     label: 'Created At',
     width: '10%',
   },
   {
-    name: 'updatedAt',
+    value: 'updatedAt',
     label: 'Updated At',
     width: '10%',
   },
   {
-    name: 'actions',
-    label: 'Actions',
+    value: '',
+    label: '',
     width: '10%',
   },
 ]
@@ -83,280 +83,111 @@ function handleNavigateToTask(id: number) {
 
 <template>
   <div class="tasks-page">
-    <div class="toolbar">
-      <h2 class="title">
-        My Tasks
-      </h2>
-      <div class="actions">
-        <button type="button" class="create" @click="showModal">
-          <Icon name="uil:plus" /> New
-        </button>
-      </div>
-    </div>
-    <div class="content">
-      <table class="task-table">
+    <div class="tasks-container">
+      <table class="table">
+        <caption class="caption">
+          My Tasks
+          <p class="extra">
+            Tracking your tasks like professional developer
+          </p>
+        </caption>
         <thead class="head">
           <tr class="row">
             <th
               v-for="column in taskColumns"
-              :key="column.name"
-              class="cell"
+              :key="column.value"
               :width="column.width"
+              scope="col"
+              class="cell"
             >
               {{ column.label }}
             </th>
           </tr>
         </thead>
         <tbody class="body">
-          <tr
-            v-for="(task, index) in tasks"
-            :key="task.id"
-            class="row"
-            :class="{ '-stripe': index % 2 === 1 }"
-          >
-            <td class="cell">
-              {{ `#${task.id}` }}
+          <tr v-for="task in tasks" :key="task.id" class="row">
+            <td scope="row" class="cell">
+              #{{ task.id }}
             </td>
-            <td class="cell">
+            <td scope="row" class="cell">
               {{ task.name }}
             </td>
             <td class="cell">
               {{ task.description }}
             </td>
             <td class="cell">
-              {{ format(new Date(task.createdAt), "MMM do yyyy") }}
+              {{ format(new Date(task.createdAt), 'dd/MM/yyyy') }}
             </td>
             <td class="cell">
-              {{ format(new Date(task.updatedAt!), "MMM do yyyy") }}
+              {{ format(new Date(task.updatedAt!), 'dd/MM/yyyy') }}
             </td>
-            <td class="cell">
-              <button type="button" @click="handleNavigateToTask(task.id)">
-                <Icon name="uil:location-arrow" color="blue" />
-              </button>
-              <button type="button">
-                <Icon name="uil:edit" />
-              </button>
-              <button type="button" @click="handleDeleteTask(task.id)">
-                <Icon color="red" name="uil:trash-alt" />
-              </button>
+            <td class="cell text-right">
+              <Icon
+                class="button text-blue-600 mr-2"
+                name="uil:location-arrow"
+                size="15"
+                @click="handleNavigateToTask(task.id)"
+              />
+              |
+              <Icon
+                class="button text-red-600 ml-2"
+                name="uil:trash"
+                size="15"
+                @click="handleDeleteTask(task.id)"
+              />
             </td>
           </tr>
         </tbody>
       </table>
-    </div>
-    <div v-if="isVisible" class="task-modal">
-      <div class="overlay" @click="hideModal" />
-      <div class="modal-card">
-        <div class="header">
-          <h4 class="title">
-            Create new Task
-          </h4>
-          <button type="button" @click="hideModal">
-            <Icon name="uil:multiply" />
-          </button>
-        </div>
-        <div class="body">
-          <form class="form">
-            <div class="form-item">
-              <label class="label" for="name">Name</label>
-              <input
-                id="name"
-                v-model="createTaskData.name"
-                class="input"
-                type="text"
-              >
-            </div>
-            <div class="form-item">
-              <label class="label" for="description">Description</label>
-              <textarea
-                id="description"
-                v-model="createTaskData.description"
-                class="input"
-                type="textarea"
-                rows="3"
-              />
-            </div>
-          </form>
-        </div>
-        <div class="actions">
-          <button type="button" class="save" @click="handleCreateTask">
-            <Icon name="uil:save" /> Save
-          </button>
-          <button type="button" class="cancel" @click="hideModal">
-            <Icon name="uil:multiply" /> Cancel
-          </button>
-        </div>
-      </div>
+      <button type="button" class="create-button" @click="showModal">
+        <Icon name="uil:plus" size="20" />
+      </button>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .tasks-page {
-  > .toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-
-  > .toolbar > .title {
-    color: $primary-color;
-  }
-
-  > .toolbar > .actions > .create {
-    background-color: $primary-color;
-    color: $light-color;
-    border: none;
-    padding: 8px 12px;
-    cursor: pointer;
-    border-radius: 4px;
-    box-shadow: $box-shadow-small;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  > .content {
-    overflow: auto;
-    height: 600px;
-  }
+  @apply h-full relative bg-white;
 }
 
-.task-table {
-  border-collapse: collapse;
-  width: 100%;
-  table-layout: fixed;
+.tasks-container {
+  @apply sm:rounded-lg h-[550px] overflow-y-auto p-4;
 
-  > .body > .row.-stripe {
-    background-color: $light-color;
+  > .table {
+    @apply w-full text-sm text-left text-gray-500 table-fixed;
   }
 
-  thead {
-    position: sticky;
-    top: 0;
-    z-index: 2;
+  > .table > .caption {
+    @apply text-lg font-semibold text-left text-gray-900 bg-white sticky top-0;
   }
 
-  tbody tr:hover {
-    background-color: $gray-color !important;
-    cursor: default;
+  > .table > .caption > .extra {
+    @apply mb-3 text-sm font-normal text-gray-500;
   }
 
-  th,
-  td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid $gray-color;
+  > .table > .head {
+    @apply text-xs text-gray-700 uppercase bg-blue-100 sticky top-16;
   }
 
-  th {
-    background-color: lighten($color: $primary-color, $amount: 40%);
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-}
-
-.task-modal {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 2;
-
-  > .overlay {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    opacity: 0.5;
-    background-color: $dark-color;
+  > .table > .head > .row > .cell {
+    @apply px-6 py-4;
   }
 
-  > .modal-card {
-    position: relative;
-    max-width: 50%;
-    margin: auto;
-    background-color: $light-color;
-    padding: 16px;
-    margin-top: 10%;
-    z-index: 3;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    box-shadow: $box-shadow-small;
+  > .table > .body > .row {
+    @apply bg-white border-b hover:bg-gray-50;
   }
 
-  > .modal-card > .header {
-    display: flex;
-    justify-content: space-between;
+  > .table > .body > .row > .cell {
+    @apply px-6 py-4 font-medium text-gray-900 whitespace-pre-line;
   }
 
-  > .modal-card > .header {
-    font-size: 20px;
+  > .table > .body > .row > .cell > .button {
+    @apply font-medium hover:underline cursor-pointer;
   }
 
-  > .modal-card > .body > .form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  > .modal-card > .body > .form > .form-item {
-    margin-bottom: 16px;
-    width: 100%;
-  }
-
-  > .modal-card > .body > .form > .form-item > .label {
-    display: block;
-  }
-
-  > .modal-card > .body > .form > .form-item > .input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid $gray-color;
-    border-radius: 4px;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  > .modal-card > .actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 16px;
-  }
-
-  > .modal-card > .actions > .save {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    background-color: $primary-color;
-    color: $light-color;
-    border: none;
-    padding: 8px 12px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 4px;
-    box-shadow: $box-shadow-small;
-    gap: 4px;
-  }
-  > .modal-card > .actions > .cancel {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    background-color: $secondary-color;
-    color: $light-color;
-    border: none;
-    padding: 8px 12px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 4px;
-    box-shadow: $box-shadow-small;
-    gap: 4px;
+  > .create-button {
+    @apply absolute top-6 right-7 flex items-center justify-center text-white bg-blue-600 rounded-full w-10 h-10 hover:bg-blue-700;
   }
 }
 </style>

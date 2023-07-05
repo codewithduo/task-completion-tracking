@@ -108,10 +108,10 @@ async function handleCreateTaskEdgeCase() {
               {{ edgeCase.solution }}
             </td>
             <td class="cell text-right">
-              <Icon class="button text-blue-600" name="uil:edit" size="15" />
+              <Icon class="button text-blue-600 mr-2" name="uil:edit" size="15" />
               |
               <Icon
-                class="button text-red-600"
+                class="button text-red-600 ml-2"
                 name="uil:trash"
                 size="15"
                 @click="deleteTaskEdgeCase(edgeCase.id)"
@@ -197,7 +197,7 @@ async function handleCreateTaskEdgeCase() {
   }
 
   > .table > .head {
-    @apply text-xs text-gray-700 uppercase bg-gray-50 sticky top-16;
+    @apply text-xs text-gray-700 uppercase bg-blue-100 sticky top-16;
   }
 
   > .table > .head > .row > .cell {
