@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { useTasksStore } from '~/stores/tasks'
 import type { TaskRelation } from '~/server/api/tasks/[id].get'
-import { useTaskOverviewsStore } from '~/stores/task-overviews'
 
 const props = defineProps<{
   task: TaskRelation
@@ -15,7 +15,7 @@ const taskOverviewForm = reactive({
   taskInteraction: props.task.taskOverview?.taskInteraction || '',
 })
 
-const taskOverviewStore = useTaskOverviewsStore()
+const tasksStore = useTasksStore()
 
 const userInterfaceRef = ref()
 const isEditMode = ref(!props.task.taskOverview)
@@ -37,7 +37,7 @@ async function handleCreateOrUpdateTaskOverview() {
     })
   }
 
-  await taskOverviewStore.createOrUpdateTaskOverview(taskId, taskOverviewForm)
+  await tasksStore.createOrUpdateTaskOverview(taskId, taskOverviewForm)
   closeEditMode()
 }
 

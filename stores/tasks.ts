@@ -1,4 +1,5 @@
-import type { Task } from '@prisma/client'
+import type { Task, TaskEdgeCase, TaskOverview } from '@prisma/client'
+import type { CreateTaskEdgeCaseDto } from './../server/api/task-edge-cases/index.post'
 import type { CreateTaskData } from '~/server/api/tasks.post'
 import type { TaskRelation } from '~/server/api/tasks/[id].get'
 
@@ -34,6 +35,7 @@ export const useTasksStore = defineStore('tasks', () => {
     }
 
     task.value = data.value as TaskRelation
+    // taskEdgeCases.value = task.value.taskEdgeCases
   }
 
   const createTask = async (createTaskData: CreateTaskData) => {
@@ -77,5 +79,91 @@ export const useTasksStore = defineStore('tasks', () => {
     })
   }
 
-  return { task, tasks, fetchTasks, createTask, deleteTask, fetchTask }
+  const createTaskEdgeCase = async (
+    createTaskEdgeCaseData: CreateTaskEdgeCaseDto,
+  ) => {
+    const { data, error } = await useFetch<TaskEdgeCase>(
+      '/api/task-edge-cases',
+      {
+        method: 'POST',
+        headers: useRequestHeaders(['cookie']),
+        body: createTaskEdgeCaseData,
+      },
+    )
+
+    if (error.value) {
+      return useNotification({
+        type: 'error',
+        message: error.value.message,
+      })
+    }
+
+    task.value!.taskEdgeCases.push(data.value as TaskEdgeCase)
+
+    useNotification({
+      message: 'Task edge case created successfully!',
+    })
+  }
+
+  const deleteTaskEdgeCase = async (id: number) => {
+    const { error } = await useFetch<TaskEdgeCase>(
+      `/api/task-edge-cases/${id}`,
+      {
+        method: 'DELETE',
+        headers: useRequestHeaders(['cookie']),
+      },
+    )
+
+    if (error.value) {
+      return useNotification({
+        message: error.value.message,
+        type: 'error',
+      })
+    }
+
+    task.value!.taskEdgeCases = task.value!.taskEdgeCases.filter(
+      taskEdgeCase => taskEdgeCase.id !== id,
+    )
+
+    useNotification({
+      message: 'Delete successfully!',
+    })
+  }
+
+  const createOrUpdateTaskOverview = async (
+    taskId: number,
+    createTaskOverviewData: any,
+  ) => {
+    const { error } = await useFetch<TaskOverview>(
+      `/api/tasks/${taskId}/overviews`,
+      {
+        method: 'POST',
+        headers: useRequestHeaders(['cookie']),
+        body: createTaskOverviewData,
+      },
+    )
+
+    if (error.value) {
+      return useNotification({
+        type: 'error',
+        message: error.value.message,
+      })
+    }
+
+    useNotification({
+      message: 'Task overview updated successfully!',
+    })
+  }
+
+  return {
+    task,
+    tasks,
+    fetchTasks,
+    createTask,
+    deleteTask,
+    fetchTask,
+    createTaskEdgeCase,
+    deleteTaskEdgeCase,
+    createOrUpdateTaskOverview,
+  }
 })

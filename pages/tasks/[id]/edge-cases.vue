@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { useTasksStore } from '~/stores/tasks'
 import type { TaskRelation } from '~/server/api/tasks/[id].get'
-import { useTaskEdgeCaseStore } from '~/stores/task-edge-cases'
 
 const props = defineProps<{
   task: TaskRelation
@@ -42,14 +42,8 @@ function resetCreateTaskEdgeCaseData() {
   createTaskEdgeCaseData.solution = ''
 }
 
-const taskEdgeCaseStore = useTaskEdgeCaseStore()
-const { createTaskEdgeCase, fetchTaskEdgeCases, deleteTaskEdgeCase }
-  = taskEdgeCaseStore
-const { taskEdgeCases } = storeToRefs(taskEdgeCaseStore)
-
-onMounted(async () => {
-  await fetchTaskEdgeCases(props.task.id)
-})
+const tasksStore = useTasksStore()
+const { createTaskEdgeCase, deleteTaskEdgeCase } = tasksStore
 
 async function handleCreateTaskEdgeCase() {
   if (!createTaskEdgeCaseData.name || !createTaskEdgeCaseData.solution) {
@@ -94,7 +88,7 @@ async function handleCreateTaskEdgeCase() {
         </thead>
         <tbody class="body">
           <tr
-            v-for="edgeCase in taskEdgeCases"
+            v-for="edgeCase in task.taskEdgeCases"
             :key="edgeCase.id"
             class="row"
           >
