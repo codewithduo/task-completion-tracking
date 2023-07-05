@@ -6,6 +6,7 @@ const taskRelation = Prisma.validator<Prisma.TaskArgs>()({
   include: {
     taskOverview: true,
     taskEdgeCases: true,
+    taskSolving: true,
   },
 })
 export type TaskRelation = Prisma.TaskGetPayload<typeof taskRelation>
@@ -20,6 +21,7 @@ export default defineEventHandler(async (event: H3Event): Promise<TaskRelation> 
     include: {
       taskOverview: true,
       taskEdgeCases: true,
+      taskSolving: true,
     },
   })
 
