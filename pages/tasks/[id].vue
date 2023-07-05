@@ -13,14 +13,21 @@ await tasksStore.fetchTask(taskId)
 </script>
 
 <template>
-  <div class="task-details-page">
-    <div class="task-steps">
-      <TaskStepList />
-    </div>
-    <div class="step-content">
-      <NuxtPage :task="task" />
-    </div>
-  </div>
+  <Suspense>
+    <template #default>
+      <div class="task-details-page">
+        <div class="task-steps">
+          <TaskStepList />
+        </div>
+        <div class="step-content">
+          <NuxtPage :task="task" />
+        </div>
+      </div>
+    </template>
+    <template #fallback>
+      <div>Loading...</div>
+    </template>
+  </Suspense>
 </template>
 
 <style scoped lang="scss">

@@ -73,10 +73,6 @@ async function handleCreateTask() {
 async function handleDeleteTask(id: number) {
   await tasksStore.deleteTask(id)
 }
-
-function handleNavigateToTask(id: number) {
-  return navigateTo(`/tasks/${id}/understand`)
-}
 </script>
 
 <template>
@@ -120,12 +116,13 @@ function handleNavigateToTask(id: number) {
               {{ format(new Date(task.updatedAt!), 'dd/MM/yyyy') }}
             </td>
             <td class="cell text-right">
-              <Icon
-                class="button text-blue-600 mr-2"
-                name="uil:location-arrow"
-                size="15"
-                @click="handleNavigateToTask(task.id)"
-              />
+              <NuxtLink :to="`/tasks/${task.id}/understand`">
+                <Icon
+                  class="button text-blue-600 mr-2"
+                  name="uil:location-arrow"
+                  size="15"
+                />
+              </NuxtLink>
               |
               <Icon
                 class="button text-red-600 ml-2"
