@@ -3,6 +3,7 @@
     <template #default>
       <div>
         <NuxtLayout>
+          <NuxtLoadingIndicator />
           <NuxtPage />
         </NuxtLayout>
         <AppNotificationContainer />
