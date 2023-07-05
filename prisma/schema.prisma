@@ -15,6 +15,7 @@ model Task {
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime? @updatedAt @map("updated_at")
 
+  taskSolving   TaskSolving?
   taskOverview  TaskOverview?
   taskEdgeCases TaskEdgeCase[]
 
@@ -42,4 +43,17 @@ model TaskEdgeCase {
   task Task @relation(fields: [taskId], references: [id])
 
   @@map("task_edge_cases")
+}
+
+model TaskSolving {
+  id              Int     @id @default(autoincrement())
+  taskId          Int     @unique @map("task_id")
+  taskScope       String  @map("task_scope") @db.Text
+  taskContext     String  @map("task_context") @db.Text
+  optimalSolution String  @map("optimal_solution") @db.Text
+  isNeedPoc       Boolean @default(false)
+
+  task Task @relation(fields: [taskId], references: [id])
+
+  @@map("task_solving")
 }
