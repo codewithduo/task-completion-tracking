@@ -129,12 +129,13 @@ onUpdated(() => {
   }
 
   > .overview > .fieldset > .form-item {
-    @apply p-2
+    @apply p-3
   }
 
   > .overview > .fieldset > .form-item > .label {
     @apply block mb-2 text-sm font-medium text-gray-900
   }
+
   > .overview > .fieldset > .form-item > .input {
     @apply block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500;
   }
@@ -146,26 +147,15 @@ onUpdated(() => {
     gap: 16px;
   }
 
-  > .overview > .actions > .button {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 20px;
-    color: $light-color;
-    border-radius: 4px;
-  }
-
   > .overview > .actions > .edit {
-    @extend .button;
-    background-color: $danger-color;
+    @apply focus:outline-none text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 flex items-center gap-1
   }
   > .overview > .actions > .save {
-    @extend .button;
-    background-color: $primary-color;
+    @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 flex items-center gap-1
   }
+
   > .overview > .actions > .cancel {
-    @extend .button;
-    background-color: $secondary-color;
+    @apply text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 flex items-center gap-1
   }
 }
 </style>
