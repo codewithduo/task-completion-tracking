@@ -47,7 +47,9 @@ const { createTaskEdgeCase, fetchTaskEdgeCases, deleteTaskEdgeCase }
   = taskEdgeCaseStore
 const { taskEdgeCases } = storeToRefs(taskEdgeCaseStore)
 
-await fetchTaskEdgeCases(props.task.id)
+onMounted(async () => {
+  await fetchTaskEdgeCases(props.task.id)
+})
 
 async function handleCreateTaskEdgeCase() {
   if (!createTaskEdgeCaseData.name || !createTaskEdgeCaseData.solution) {
@@ -91,7 +93,11 @@ async function handleCreateTaskEdgeCase() {
           </tr>
         </thead>
         <tbody class="body">
-          <tr v-for="edgeCase in taskEdgeCases" :key="edgeCase.id" class="row">
+          <tr
+            v-for="edgeCase in taskEdgeCases"
+            :key="edgeCase.id"
+            class="row"
+          >
             <td scope="row" class="cell">
               #{{ edgeCase.id }}
             </td>
@@ -102,14 +108,10 @@ async function handleCreateTaskEdgeCase() {
               {{ edgeCase.solution }}
             </td>
             <td class="cell text-right">
-              <Icon
-                class="button text-blue-600 "
-                name="uil:edit"
-                size="15"
-              />
+              <Icon class="button text-blue-600" name="uil:edit" size="15" />
               |
               <Icon
-                class="button text-red-600 "
+                class="button text-red-600"
                 name="uil:trash"
                 size="15"
                 @click="deleteTaskEdgeCase(edgeCase.id)"
@@ -210,7 +212,7 @@ async function handleCreateTaskEdgeCase() {
     @apply px-6 py-4 font-medium text-gray-900 whitespace-pre-line;
   }
 
-  > .table > .body > .row > .cell > .button{
+  > .table > .body > .row > .cell > .button {
     @apply font-medium hover:underline cursor-pointer;
   }
 
